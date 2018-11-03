@@ -93,6 +93,7 @@ int main()
       right = 1;
       left = 1;
       printf("Select pressed\n");
+      fflush(stdout);
     }
     if ((PORT_ReadInputDataBit(MDR_PORTB, PORT_Pin_6) == Bit_RESET) && right)
     {
@@ -104,6 +105,7 @@ int main()
         PORT_SetBits(MDR_PORTC, LED2);
         right = 0;
         printf("Right pressed\n");
+        fflush(stdout);
       }
     }
     if ((PORT_ReadInputDataBit(MDR_PORTE, PORT_Pin_3) == Bit_RESET) && left)
@@ -116,6 +118,7 @@ int main()
         PORT_SetBits(MDR_PORTC, LED1);
         left = 0;
         printf("Left pressed\n");
+        fflush(stdout);
       }
     }
   }

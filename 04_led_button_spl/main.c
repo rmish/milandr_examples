@@ -88,17 +88,18 @@ int main()
       // включить светодиоды
       PORT_SetBits(MDR_PORTC, LED1 | LED2);
       printf("Select pressed\n");
+      fflush(stdout);
     }
     else
     {
       // выключить светодиоды
       PORT_ResetBits(MDR_PORTC, LED1 | LED2);
-      //PORT_ResetBits(MDR_PORTC, LED2);
     }
     if (PORT_ReadInputDataBit(MDR_PORTB, PORT_Pin_6) == Bit_RESET)
     {
       PORT_SetBits(MDR_PORTC, LED2);
       printf("Right pressed\n");
+      fflush(stdout);
     }
     else
       PORT_ResetBits(MDR_PORTC, LED2);
@@ -106,6 +107,7 @@ int main()
     {
       PORT_SetBits(MDR_PORTC, LED1);
       printf("Left pressed\n");
+      fflush(stdout);
     }
     else
       PORT_ResetBits(MDR_PORTC, LED1);
