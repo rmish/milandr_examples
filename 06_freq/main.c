@@ -11,7 +11,7 @@
 #define LED2 PORT_Pin_1
 
 // диапазон 1-10
-#define FRQMUL 5
+#define FRQMUL 1
 
 void buttons_init(void);
 void leds_init(void);
@@ -30,9 +30,15 @@ int main()
   while (1)
   {
     PORT_SetBits(MDR_PORTC, LED1 | LED2);
-    for (int i=0;i<500000;i++) {__NOP();}
+    for (int i = 0; i < 500000; i++)
+    {
+      __NOP();
+    }
     PORT_ResetBits(MDR_PORTC, LED1 | LED2);
-    for (int i=0;i<500000;i++) {__NOP();}
+    for (int i = 0; i < 500000; i++)
+    {
+      __NOP();
+    }
   }
 }
 
@@ -111,40 +117,29 @@ void leds_init(void)
 
 void init_frq(void)
 {
-  /* Включение HSE внешнего кварцевого резонатора */
+  // Включение HSE внешнего кварцевого осцилятора
   RST_CLK_HSEconfig(RST_CLK_HSE_ON);
-  if (RST_CLK_HSEstatus() == SUCCESS) /* Если HSE осциллятор включился и прошел текст*/
-  {
-    // Выбор HSE осциллятора в качестве источника тактовых импульсов для CPU_PLL
-    // и установка умножителя тактовой частоты CPU_PLL равного 0
-    // Частота внешнего кварца равна 8 МГц Максимальная частота процессора 80 МГц ,
-    // RST_CLK_CPU_PLLconfig ( Источник тактирования PLL, Коэффициент умножения 1);
-    RST_CLK_CPU_PLLconfig( RST_CLK_CPU_PLLsrcHSEdiv1, FRQMUL-1);
-    /* Включение схемы PLL*/
-    RST_CLK_CPU_PLLcmd(ENABLE);
-    if (RST_CLK_CPU_PLLstatus() == SUCCESS)
-    //Если включение CPU_PLL прошло успешно
-    {
-      /* Установка CPU_C3_prescaler = 2 */
-      RST_CLK_CPUclkPrescaler(RST_CLK_CPUclkDIV2);
-      /* Установка CPU_C2_SEL от CPU_PLL выхода вместо CPU_C1 такта*/
-      RST_CLK_CPU_PLLuse(ENABLE);
-      /* Выбор CPU_C3 такта на мультиплексоре тактовых импульсов микропроцессора (CPU clock
-       MUX) */
-      RST_CLK_CPUclkSelection(RST_CLK_CPUclkCPU_C3);
-    }
-    else
-    {
-      while (1)
-        ;
-    }
-  }
-  else
-  {
-    while (1)
-      ;
-  }
-
+  // Ждём вклчюения HSE осцилятора
+  while (!(RST_CLK_HSEstatus() == SUCCESS))
+    __NOP();
+  // Выбор HSE осциллятора в качестве источника тактовых импульсов для CPU_PLL
+  // и установка умножителя тактовой частоты CPU_PLL равного 0
+  // Частота внешнего кварца равна 8 МГц Максимальная частота процессора 80 МГц ,
+  // Устанавливаем источник тактирования и коэффициент умножения схемы PLL
+  // первый параметр: источник, второй: коэффициент умножения -1
+  RST_CLK_CPU_PLLconfig( RST_CLK_CPU_PLLsrcHSEdiv1, FRQMUL - 1);
+  // Включение схемы PLL
+  RST_CLK_CPU_PLLcmd(ENABLE);
+  // Ожидание состояния готовности схемы PLL
+  while (!(RST_CLK_CPU_PLLstatus() == SUCCESS))
+    __NOP();
+  //Если включение CPU_PLL прошло успешно
+  // Установка установка предделителя частоты С3 CPU_C3_prescaler = 1
+  RST_CLK_CPUclkPrescaler(RST_CLK_CPUclkDIV1);
+  // Включение схему умножения частоты PLL
+  RST_CLK_CPU_PLLuse(ENABLE);
+  // Использование для тактирования МК CPU_C3
+  RST_CLK_CPUclkSelection(RST_CLK_CPUclkCPU_C3);
 }
 
 void exit(int code)
