@@ -46,12 +46,12 @@
 <booleanAttribute key="org.eclipse.cdt.dsf.gdb.UPDATE_THREADLIST_ON_SUSPEND" value="false"/>
 <intAttribute key="org.eclipse.cdt.launch.ATTR_BUILD_BEFORE_LAUNCH_ATTR" value="2"/>
 <stringAttribute key="org.eclipse.cdt.launch.COREFILE_PATH" value=""/>
-<stringAttribute key="org.eclipse.cdt.launch.PROGRAM_NAME" value="Debug/03_led_button_spl.elf"/>
-<stringAttribute key="org.eclipse.cdt.launch.PROJECT_ATTR" value="03_led_button_spl"/>
+<stringAttribute key="org.eclipse.cdt.launch.PROGRAM_NAME" value="Debug/05_button_debouncing.elf"/>
+<stringAttribute key="org.eclipse.cdt.launch.PROJECT_ATTR" value="05_button_debouncing"/>
 <booleanAttribute key="org.eclipse.cdt.launch.PROJECT_BUILD_CONFIG_AUTO_ATTR" value="false"/>
 <stringAttribute key="org.eclipse.cdt.launch.PROJECT_BUILD_CONFIG_ID_ATTR" value=""/>
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
-<listEntry value="/03_led_button_spl"/>
+<listEntry value="/05_button_debouncing"/>
 </listAttribute>
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
 <listEntry value="4"/>
